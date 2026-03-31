@@ -1,0 +1,54 @@
+# ================================
+# Visual Studio
+# ================================
+.vs/
+*.user
+*.userosscache
+*.suo
+*.cache
+*.doc.user*.docstates
+PublishProfiles/
+
+# ================================
+# ASP.NET / MVC
+# ================================
+App_Data/*.mdf
+App_Data/*.ldf
+App_Data/*.log
+
+# ================================
+# NuGet
+# ================================
+packages/
+*.nupkg
+.nuget/NuGet.exe
+.nuget/NuGet.targets
+
+# ================================
+# IIS / Express
+# ================================
+.iisexpress/
+.applicationhost.config
+
+# ================================
+# Configuration files (opcional)
+# ================================
+web.config
+web.Release.config
+web.Debug.config
+
+
+
+# ================================
+# Build results
+# ================================
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+# ================================
+# Publish files
+# ================================
+*.Publish.xml
+*.pubxml
