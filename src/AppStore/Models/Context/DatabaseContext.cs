@@ -4,11 +4,11 @@ using AppStore.Models.Domain;
 
 namespace AppStore.Models.Context;
 
+
 public class DatabaseContext : IdentityDbContext<ApplicationUser>
 {
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

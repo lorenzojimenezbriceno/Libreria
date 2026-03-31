@@ -70,8 +70,10 @@ namespace AppStore.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Precio = table.Column<decimal>(type: "TEXT", nullable: true),
                     Titulo = table.Column<string>(type: "TEXT", nullable: true),
-                    CreateDate = table.Column<string>(type: "TEXT", nullable: true),
+                    Descripcion = table.Column<string>(type: "TEXT", nullable: true),
+                    CreationDate = table.Column<string>(type: "TEXT", nullable: true),
                     Imagen = table.Column<string>(type: "TEXT", nullable: true),
                     Autor = table.Column<string>(type: "TEXT", nullable: false)
                 },
@@ -191,8 +193,7 @@ namespace AppStore.Migrations
                 columns: table => new
                 {
                     CategoriaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    LibroId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                    LibroId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {

@@ -108,10 +108,16 @@ namespace AppStore.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CreateDate")
+                    b.Property<string>("CreationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Imagen")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("Precio")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Titulo")
@@ -128,9 +134,6 @@ namespace AppStore.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoriaId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("LibroId", "CategoriaId");

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using AppStore.Models.Domain;
 
 namespace AppStore.Models.Context;
 
@@ -6,7 +7,7 @@ public class LoadDatabase
 {
     public static async Task InsertarData(
         DatabaseContext context,
-        UserManager<ApplicationUser> usuarioManager,
+        UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager)
     {
         // Agregar los roles si no existen
@@ -17,31 +18,34 @@ public class LoadDatabase
         }
 
         // Agregar los usuarios si no existen
-        if (!usuarioManager.Users.Any())
+        if (!userManager.Users.Any())
         {
             // Agregar un usuario administrador
             var adminUser = new ApplicationUser
             {
                 UserName = "admin",
-                Email = "admin@example.com"
+                Email = "admin@example.com",
+                Nombre = "Admin",
             };
-            await usuarioManager.CreateAsync(adminUser, "Admin123!");
-            await usuarioManager.AddToRoleAsync(adminUser, "Admin");
+            await userManager.CreateAsync(adminUser, "Admin123!");
+            await userManager.AddToRoleAsync(adminUser, "Admin");
 
             // Agregar un usuario regular
             var user = new ApplicationUser
             {
                 UserName = "user",
-                Email = "user@example.com"
+                Email = "user@example.com",
+                Nombre = "User",
             };
-            await usuarioManager.CreateAsync(user, "User123!");
-            await usuarioManager.AddToRoleAsync(user, "User");
+            await userManager.CreateAsync(user, "User123!");
+            await userManager.AddToRoleAsync(user, "User");
+            await context.SaveChangesAsync();
         }
 
         // Agregar categorias
-        if (!context.Categorias.Any())
+        if (!context.Categorias!.Any())
         {
-            context.Categorias.AddRange(
+            await context.Categorias!.AddRangeAsync(
                 new Categoria { Nombre = "Drama" },
                 new Categoria { Nombre = "Comedia" },
                 new Categoria { Nombre = "Accion" },
@@ -53,12 +57,13 @@ public class LoadDatabase
                 new Categoria { Nombre = "Educación" },
                 new Categoria { Nombre = "Misterio" }
             );
+            await context.SaveChangesAsync();
         }
 
         // Agregar libros
-        if (!context.Libros.Any())
+        if (!context.Libros!.Any())
         {
-            context.Libros.AddRange(
+            await context.Libros!.AddRangeAsync(
                 new Libro
                 {
                     Titulo = "El Gran Gatsby",
@@ -66,8 +71,7 @@ public class LoadDatabase
                     Descripcion = "Una novela clásica sobre el sueño americano.",
                     Precio = 9.99m,
                     CreationDate = "10/04/1925",
-                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg",
-                    CategoriaId = context.Categorias.First(c => c.Nombre == "Drama").Id
+                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg"
                 },
                 new Libro
                 {
@@ -76,8 +80,7 @@ public class LoadDatabase
                     Descripcion = "Una obra maestra del realismo mágico.",
                     Precio = 12.99m,
                     CreationDate = "30/05/1967",
-                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81t2CVWEsUL.jpg",
-                    CategoriaId = context.Categorias.First(c => c.Nombre == "Drama").Id
+                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81t2CVWEsUL.jpg"
                 },
                 new Libro
                 {
@@ -86,22 +89,21 @@ public class LoadDatabase
                     Descripcion = "Un misterio literario ambientado en Barcelona.",
                     Precio = 10.99m,
                     CreationDate = "01/05/2001",
-                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81a4kCNuH+L.jpg",
-                    CategoriaId = context.Categorias.First(c => c.Nombre == "Misterio").Id
+                    Imagen = "https://images-na.ssl-images-amazon.com/images/I/81a4kCNuH+L.jpg"
                 }
             );
+            await context.SaveChangesAsync();
         }
 
         // Agregar LibroCategorias
-        if (!context.LibroCategorias.Any())
+        if (!context.LibroCategorias!.Any())
         {
-            context.LibroCategorias.AddRange(
+            await context.LibroCategorias!.AddRangeAsync(
                 new LibroCategoria { CategoriaId = 1, LibroId = 1 },
-                new LibroCategoria { CategoriaId = 1, LibroId = 2 },
+                new LibroCategoria { CategoriaId = 2, LibroId = 2 },
                 new LibroCategoria { CategoriaId = 10, LibroId = 3 }
             );
+            await context.SaveChangesAsync();
         }
-
-        await context.SaveChangesAsync();
     }
 }

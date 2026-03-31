@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppStore.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20260331050136_MigracionInicial")]
+    [Migration("20260331172744_MigracionInicial")]
     partial class MigracionInicial
     {
         /// <inheritdoc />
@@ -111,10 +111,16 @@ namespace AppStore.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CreateDate")
+                    b.Property<string>("CreationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Descripcion")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Imagen")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("Precio")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Titulo")
@@ -131,9 +137,6 @@ namespace AppStore.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("CategoriaId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("Id")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("LibroId", "CategoriaId");

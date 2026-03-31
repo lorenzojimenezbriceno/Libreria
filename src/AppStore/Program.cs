@@ -1,4 +1,5 @@
 using AppStore.Models.Context;
+using AppStore.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 
@@ -20,7 +21,12 @@ builder.Services.AddDbContext<DatabaseContext>(opt => {
 
 // Add Identity services
 builder.Services
-    .AddIdentity<IdentityUser, IdentityRole>()
+    .AddIdentity<ApplicationUser, IdentityRole>(
+        // options => {
+        //     options.Password.RequireDigit = true;
+        //     options.Password.RequiredLength = 6;
+        // }
+    )
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders();
 
@@ -57,9 +63,12 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var services = scope.ServiceProvider;
-        var context = services.GetRequiredService<DatabaseContext>();
-        var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+
+        var context  = services.GetRequiredService<DatabaseContext>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+
+        await context.Database.MigrateAsync();
         LoadDatabase.InsertarData(context, userManager, roleManager).Wait();
     }
     catch (Exception ex)
