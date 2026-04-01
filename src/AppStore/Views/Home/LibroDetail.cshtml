@@ -1,0 +1,22 @@
+@model AppStore.Models.Domain.Libro
+
+@{
+    ViewData["Title"] = "Detalle del " + Model.Titulo + ", " + Model.Autor;
+}
+
+<div class="movie-detail w-80 m-auto">
+    <div class="img-container">
+        <img alt="Portada Libro" src="@Model.Imagen">
+    </div>
+    
+    <div class="detail-container">
+        <h3>@Model.Titulo</h3>
+        <h4>@Model.CategoriasNames</h4>
+        <h4>@Model.CreationDate</h4>
+        <h4>Autor: @Model.Autor</h4>
+    </div>
+
+    <div class="w-80 m-auto">
+        <a href="/Home/Index" class="btn btn-detault">Atrás</a>
+    </div>
+</div>

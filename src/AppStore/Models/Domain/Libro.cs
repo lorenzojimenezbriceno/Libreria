@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppStore.Models.Domain;
 
@@ -18,4 +19,11 @@ public class Libro
     // Referencias
     public virtual ICollection<Categoria>? CategoriaRelationList { get; set; }
     public virtual ICollection<LibroCategoria>? LibroCategoriaRelationList { get; set; }
+
+    // Lista de categorías asociadas al libro (solo IDs)
+    [NotMapped]
+    public List<int>? Categorias { get; set; }
+
+    [NotMapped]
+    public string? CategoriasNames {get;set;}
 }
