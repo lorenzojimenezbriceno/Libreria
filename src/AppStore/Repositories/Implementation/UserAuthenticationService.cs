@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using AppStore.Models.DTO;
 using AppStore.Models.Domain;
 using AppStore.Repositories.Abstract;
+using System.Runtime.CompilerServices;
 
 namespace AppStore.Repositories.Abstract;
 
@@ -26,17 +27,13 @@ public class UserAuthenticationService : IUserAuthenticationService
 
         if (user == null)
         {
-            status.IsSuccessful = false;
             status.StatusCode = 0;
             status.Message = "El usuario es invalido";
             return status;
         }
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password!);
-
-        if (!result.Succeeded)
+        if (!await _userManager.CheckPasswordAsync(user, login.Password!))
         {
-            status.IsSuccessful = false;
             status.StatusCode = 0;
             status.Message = "El password es incorrecto";
             return status;
@@ -45,13 +42,11 @@ public class UserAuthenticationService : IUserAuthenticationService
         var resultado = await _signInManager.PasswordSignInAsync(user, login.Password!, true, false);
         if (!resultado.Succeeded)
         {
-            status.IsSuccessful = false;
             status.StatusCode = 0;
             status.Message = "Las credenciales son incorrectas";
         }
         else
         {
-            status.IsSuccessful = true;
             status.StatusCode = 1;
             status.Message = "Login exitoso";
         }

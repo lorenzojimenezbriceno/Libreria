@@ -25,7 +25,7 @@ public class LoadDatabase
             {
                 UserName = "admin",
                 Email = "admin@example.com",
-                Nombre = "Admin",
+                Nombre = "Administrador",
             };
             await userManager.CreateAsync(adminUser, "Admin123!");
             await userManager.AddToRoleAsync(adminUser, "Admin");
@@ -35,7 +35,7 @@ public class LoadDatabase
             {
                 UserName = "user",
                 Email = "user@example.com",
-                Nombre = "User",
+                Nombre = "Lorenzo",
             };
             await userManager.CreateAsync(user, "User123!");
             await userManager.AddToRoleAsync(user, "User");

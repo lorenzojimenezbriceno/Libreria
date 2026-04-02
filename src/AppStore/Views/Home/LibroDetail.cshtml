@@ -6,13 +6,15 @@
 
 <div class="movie-detail w-80 m-auto">
     <div class="img-container">
-        <img alt="Portada Libro" src="@Model.Imagen">
+        <img alt="Portada Libro" src="/uploads/@Model.Imagen">
     </div>
     
     <div class="detail-container">
         <h3>@Model.Titulo</h3>
-        <h4>@Model.CategoriasNames</h4>
+        <h4>@Model.Descripcion</h4>
+        <h4>@Model.Precio</h4>
         <h4>@Model.CreationDate</h4>
+        <h4>@Model.CategoriasNames</h4>
         <h4>Autor: @Model.Autor</h4>
     </div>
 

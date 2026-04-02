@@ -3,6 +3,7 @@ using AppStore.Models.Domain;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using AppStore.Repositories.Abstract;
+using AppStore.Repositories.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,8 +32,16 @@ builder.Services
     .AddEntityFrameworkStores<DatabaseContext>()
     .AddDefaultTokenProviders();
 
-// Add application services
+// Agregar servicios de base de datos
 builder.Services.AddScoped<ILibroService, LibroService>();
+builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+
+//  authentication application service
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+
+// Agregar servicio para subir archivos
+builder.Services.AddScoped<IFileService, FileService>();
+
 
 // ------------------------------------------------------------------------
 

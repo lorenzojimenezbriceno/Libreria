@@ -7,19 +7,21 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "dotnet: build",
+      "requireExactSource": false,
       "program": "${workspaceFolder}/src/AppStore/bin/Debug/net9.0/AppStore.dll",
       "args": [],
-      "cwd": "${workspaceFolder}",
+      "cwd": "${workspaceFolder}/src/AppStore",
       "stopAtEntry": false,
       "serverReadyAction": {
         "action": "openExternally",
         "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
       },
       "env": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "https://localhost:5141"
       },
       "sourceFileMap": {
-        "/Views": "${workspaceFolder}/Views"
+        "/Views": "${workspaceFolder}/src/AppStore/Views"
       }
     }
   ]
