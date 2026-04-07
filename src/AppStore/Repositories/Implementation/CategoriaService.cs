@@ -37,13 +37,17 @@ public class CategoriaService : ICategoriaService
     {
         try
         {
-            // Eliminar el libro en la base de datos
             var categoria = GetById(id);
             if (categoria == null)
             {
                 return false;
             }
+        
+            // Eliminar las categorias relacionadas con los libros
+            var libroCategorias = _context.LibroCategorias!.Where(lc => lc.CategoriaId == categoria.Id).ToList();
+            _context.LibroCategorias!.RemoveRange(libroCategorias!);
 
+            // Eliminar la categoria en la base de datos
             _context.Categorias!.Remove(categoria);
             _context.SaveChanges();
 

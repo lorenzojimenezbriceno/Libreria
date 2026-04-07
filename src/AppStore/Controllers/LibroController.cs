@@ -133,7 +133,11 @@ public class LibroController : Controller
             var borro = _fileService.DeleteFile(libro.Imagen);
         }
 
-        libro.Imagen = nombreNuevo;
+        if (nombreNuevo != "")
+        {
+            libro.Imagen = nombreNuevo;    
+        }
+        
         var resultadoLibro = _libroService.Update(libro);
         if (!resultadoLibro)
         {
