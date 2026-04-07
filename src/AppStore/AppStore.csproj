@@ -20,4 +20,10 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="Views\Categoria\Add.cshtml" />
+    <AdditionalFiles Include="Views\Categoria\CategoriaList.cshtml" />
+    <AdditionalFiles Include="Views\Categoria\Edit.cshtml" />
+  </ItemGroup>
+
 </Project>

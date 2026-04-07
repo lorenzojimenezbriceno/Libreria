@@ -17,4 +17,60 @@ public class CategoriaService : ICategoriaService
     {
         return _context.Categorias!.AsQueryable();
     }
+
+    public bool Add(Categoria categoria)
+    {
+        try
+        {
+            // Salvar el libro en la base de datos
+            _context.Categorias!.Add(categoria);
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool Delete(int id)
+    {
+        try
+        {
+            // Eliminar el libro en la base de datos
+            var categoria = GetById(id);
+            if (categoria == null)
+            {
+                return false;
+            }
+
+            _context.Categorias!.Remove(categoria);
+            _context.SaveChanges();
+
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool Update(Categoria categoria)
+    {
+        try
+        {
+            _context.Categorias!.Update(categoria);
+            _context.SaveChanges();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+    
+    public Categoria? GetById(int id)
+    {
+        return _context.Categorias!.Find(id);
+    }
 }
