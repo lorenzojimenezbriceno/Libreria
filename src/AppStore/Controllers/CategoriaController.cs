@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AppStore.Repositories.Abstract;
 using AppStore.Models.Domain;
+using AppStore.Models.DTO;
 
 namespace AppStore.Controllers;
 
@@ -18,13 +19,11 @@ public class CategoriaController : Controller
 
     public IActionResult Add()
     {
-        var categoriasList = _categoriaService.List()
-            .Select(x => new SelectListItem
-            {
-                Value = x.Id.ToString(),
-                Text = x.Nombre
-            }).ToList();
-        return View(categoriasList);
+        var categoria = new Categoria();
+
+        TempData["msg"] = null;
+            
+        return View(categoria);
     }
 
     [HttpPost]
@@ -55,6 +54,7 @@ public class CategoriaController : Controller
             return RedirectToAction(nameof(CategoriaList));
         }
 
+        TempData["msg"] = null;
         return View(categoria);
     }
 
@@ -80,7 +80,11 @@ public class CategoriaController : Controller
     public IActionResult CategoriaList()
     {
         var categorias = _categoriaService.List();
-        return View(categorias);
+        var categoriaListVm = new CategoriaListVm
+        {
+            CategoriasList = categorias,
+        };
+        return View(categoriaListVm);
     }
 
     public IActionResult Delete(int id)

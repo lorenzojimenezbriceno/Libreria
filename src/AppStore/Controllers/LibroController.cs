@@ -34,6 +34,9 @@ public class LibroController : Controller
                     Text = x.Nombre
                 }).ToList()
         };
+
+        TempData["msg"] = null;
+            
         return View(libro);
     }
 
@@ -93,6 +96,8 @@ public class LibroController : Controller
         var multiSelectListCategorias = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", categoriasDeLibro);
         libro.MultiCategoriasList = multiSelectListCategorias;
 
+        TempData["msg"] = null;
+        
         return View(libro);
     }
 
@@ -145,6 +150,9 @@ public class LibroController : Controller
     public IActionResult LibroList()
     {
         var libros = _libroService.List();
+
+        TempData["msg"] = null;
+        
         return View(libros);
     }
 

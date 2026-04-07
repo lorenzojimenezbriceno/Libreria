@@ -1,39 +1,29 @@
-@model AppStore.Models.DTO.LibroListVm
+@model AppStore.Models.DTO.CategoriaListVm
 
 @{
     ViewData["Title"] = "Lista de Libros";
 }
 
 <div class="tbl-container">
-    <h2 class="pb-10">Administracion de Libros</h2>
+    <h2 class="pb-10">Administración de Categorías</h2>
 
     <table class="tbl">
         <thead>
             <tr>
-                <th>Título</th>
-                <th>Categoría</th>
-                <th>Fecha de Publicación</th>
-                <th>Imagen</th>
-                <th>Autor</th>
-                <th>Precio</th>
+                <th>Nombre</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var libro in Model.LibroList!)
+            @foreach (var categoria in Model.CategoriasList!)
             {
                 <tr>
-                    <td>@libro.Titulo</td>
-                    <td>@libro.CategoriasNames</td>
-                    <td>@libro.CreationDate</td>
-                    <td><img src="~/uploads/@libro.Imagen" style="width: 80px;height: 60px;" alt="@libro.Titulo" class="tbl-image" /></td>
-                    <td>@libro.Autor</td>
-                    <td>@libro.Precio</td>
+                    <td>@categoria.Nombre</td>
                     <td>
-                        <a href="~/Libro/Edit?id=@libro.Id" class="btn btn-default">
+                        <a href="~/Categoria/Edit?id=@categoria.Id" class="btn btn-default">
                             <i class="fa fa-edit"></i>
                         </a>
-                        <a href="~/Libro/Delete?id=@libro.Id" onclick="return confirm('¿Estás seguro de que quieres eliminar este libro?');" class="btn btn-danger">
+                        <a href="~/Categoria/Delete?id=@categoria.Id" onclick="return confirm('¿Estás seguro de que quieres eliminar esta categoria? Al eliminarla, eliminas esas categorias de los libros');" class="btn btn-danger">
                             <i class="fa fa-edit"></i>
                         </a>
                     </td>
@@ -43,7 +33,7 @@
     </table>
 
     <div class="input-container">
-        <a href="~/Libro/Add" class="btn btn-sec">Agregar Nuevo Libro</a>
+        <a href="~/Categoria/Add" class="btn btn-sec">Agregar Nueva Categoría</a>
     </div>
 
 </div>

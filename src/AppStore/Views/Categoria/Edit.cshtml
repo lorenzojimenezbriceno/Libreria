@@ -1,69 +1,18 @@
-@model AppStore.Models.Domain.Libro
+@model AppStore.Models.Domain.Categoria
 
-<form class="w-40" asp-action="Edit" method="post" enctype="multipart/form-data">
+<form class="w-40" asp-action="Edit" method="post">
     <h2 class="pb-10">"Editar Categoría"</h2>
 
     <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="Imagen" />
 
     <div class="input-container">
-        <label asp-for="Titulo" class="w-40">Titulo</label>
-        <input type="text" asp-for="Titulo" class="input" />
+        <label asp-for="Nombre" class="w-40">Nombre</label>
+        <input type="text" asp-for="Nombre" class="input" />
     </div>
     <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Titulo"></span>
+        <span asp-validation-for="Nombre"></span>
     </div>
-
-    <div class="input-container">
-        <label asp-for="Descripcion" class="w-40">Descripción</label>
-        <input type="input" asp-for="Descripcion" class="input" />
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Descripcion"></span>
-    </div>
-
-    <div class="input-container">
-        <label asp-for="Autor" class="w-40">Autor</label>
-        <input type="text" asp-for="Autor" class="input" />
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Autor"></span>
-    </div>
-
-    <div class="input-container">
-        <label asp-for="Categorias" class="w-40">Categorías</label>
-        <select asp-for="Categorias" asp-items="Model.MultiCategoriasList" class="input" multiple>
-            <option value="">-- Seleccione --</option>
-        </select>
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Categorias"></span>
-    </div>
-
-    <div class="input-container">
-        <label asp-for="CreationDate" class="w-40">Fecha de Publicación</label>
-        <input type="date" asp-for="CreationDate" class="input" />
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="CreationDate"></span>
-    </div>
-
-    <div class="input-container">
-        <label asp-for="Precio" class="w-40">Precio</label>
-        <input type="number" asp-for="Precio" class="input" />
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="Precio"></span>
-    </div>
-
-    <div class="input-container">
-        <label asp-for="ImageFile" class="w-40">Imagen</label>
-        <input type="file" asp-for="ImageFile" class="input" />
-    </div>
-    <div class="message-box pd-x-28 error">
-        <span asp-validation-for="ImageFile"></span>
-    </div>
-
+    
     @if (TempData["msg"] != null)
     {
         <div class="alert mb-1">
@@ -73,7 +22,7 @@
 
     <div class="input-container">
         <button type="submit" class="btn btn-default">Guardar</button>
-        <a href="/Libro/LibroList" class="btn btn-sec">Ver Todo</a>
+        <a href="/Categoria/CategoriaList" class="btn btn-sec">Ver Todo</a>
     </div>
 
 </form>
