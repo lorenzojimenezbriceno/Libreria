@@ -22,11 +22,20 @@
         <tbody>
             @foreach (var libro in Model.LibroList!)
             {
+                var url = "";
+                if (!libro.Imagen!.StartsWith("http"))
+                {
+                    url = $"~/uploads/{libro.Imagen}";
+                }
+                else
+                {
+                    url = $"{libro.Imagen}";
+                }
                 <tr>
                     <td>@libro.Titulo</td>
                     <td>@libro.CategoriasNames</td>
                     <td>@(libro.CreationDate?.ToString("dd/MM/yyyy"))</td>
-                    <td><img src="~/uploads/@libro.Imagen" style="width: 80px;height: 60px;" alt="@libro.Titulo" class="tbl-image" /></td>
+                    <td><img src="@url" style="width: 80px;height: 60px;" alt="@libro.Titulo" class="tbl-image" /></td>
                     <td>@libro.Autor</td>
                     <td>@libro.Precio</td>
                     <td>

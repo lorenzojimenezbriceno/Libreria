@@ -134,10 +134,7 @@ public class LibroService : ILibroService
                 .ToList();
 
             // Filtrar la lista de libros por título o si pertenecen a una categoría coincidente
-            list = list.Where(a => 
-                (a.Titulo != null && a.Titulo.ToLower().Contains(term)) || 
-                librosConCategoriaCoincidente.Contains(a.Id)
-            ).ToList();
+            list = list.Where(a => ((a.Titulo != null && a.Titulo.ToLower().Contains(term)) || (a.Autor != null && a.Autor.ToLower().Contains(term)) || librosConCategoriaCoincidente.Contains(a.Id))).ToList();
         }
 
         if (paging)

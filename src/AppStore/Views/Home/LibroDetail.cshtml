@@ -2,11 +2,20 @@
 
 @{
     ViewData["Title"] = "Detalle del " + Model.Titulo + ", " + Model.Autor;
+     var url = "";
+    if (!Model.Imagen!.StartsWith("http"))
+    {
+        url = $"~/uploads/{Model.Imagen}";
+    }
+    else
+    {
+        url = Model.Imagen;
+    }
 }
 
 <div class="movie-detail w-80 m-auto">
     <div class="img-container">
-        <img alt="Portada Libro" src="/uploads/@Model.Imagen">
+        <img alt="Portada Libro" src="@url">
     </div>
     
     <div class="detail-container">

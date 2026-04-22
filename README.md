@@ -2,10 +2,10 @@
 
 Ejercicio de .NET University, curso Foundational C# usando .NET y MVC
 
-# Falta / arreglar
+# Arreglar
 
-1. La paginacion de libros.
-2. La busqueda de libros.
+
+
 
 # Creación del proyecto
 
@@ -29,6 +29,8 @@ dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version "
 dotnet tool install --global dotnet-ef --version 9.0.14
 dotnet add package Microsoft.EntityFrameworkCore.Design --version "9.0.14"
 dotnet ef migrations add MigracionInicial
+del LocalDatabase.db
+#dotnet ef migrations remove 
 dotnet ef database update 
 
 # Actualizar paquetes
