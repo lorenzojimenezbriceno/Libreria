@@ -95,7 +95,7 @@ body {
   padding: 0 2%;
 }
 
-.search-bar input[type="text"] {
+.search-bar input[type="text"], .search-bar input[type="search"] {
   padding: 0.7rem;
   border: 1px solid lightgray;
   border-radius: 0.25rem;
