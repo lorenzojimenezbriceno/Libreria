@@ -6,8 +6,8 @@
 }
 
 <section class="search-bar">
-    <form>
-        <input type="text" placeholder="buscar libro 1">
+    <form action="/Home/Index" method="get">
+        <input type="search" name="term" value="@Model.Term" placeholder="buscar libro" onsearch="if(this.value === '') this.form.submit();">
         <button type="submit"><i class="fa fa-search"></i></button>
     </form>
 </section>
@@ -22,7 +22,7 @@
             <div class="movie-info">
                 <h4>@libro.Titulo</h4>
                 <h4>@libro.CategoriasNames</h4>
-                <h4>@libro.CreationDate</h4>
+                <h4>@(libro.CreationDate?.ToString("dd/MM/yyyy"))</h4>
             </div>
         </div>
     }

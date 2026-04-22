@@ -5,9 +5,7 @@ Ejercicio de .NET University, curso Foundational C# usando .NET y MVC
 # Falta / arreglar
 
 1. La paginacion de libros.
-2. Arreglar CSS el boton de volver del detalle del libro para que vuelva al listado.
-3. La busqueda de libros.
-4. Mejorar la pagina "Acerca"
+2. La busqueda de libros.
 
 # Creación del proyecto
 

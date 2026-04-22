@@ -120,7 +120,7 @@ public class LibroService : ILibroService
         if(!string.IsNullOrEmpty(term))
         {
             term = term.ToLower();
-            list = list.Where(a => a.Titulo!.ToLower().StartsWith(term)).ToList();
+            list = list.Where(a => a.Titulo!.ToLower().Contains(term)).ToList();
         }
 
         if (paging)
@@ -161,6 +161,7 @@ public class LibroService : ILibroService
         }
 
         data.LibroList = vmList;
+        data.Term = term;
         return data;
     }
 
