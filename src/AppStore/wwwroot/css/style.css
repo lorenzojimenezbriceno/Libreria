@@ -140,7 +140,11 @@ body {
 }
 
 .movie-image img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 250px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
 }
 
 /* Pagination links */

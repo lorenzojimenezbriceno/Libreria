@@ -120,7 +120,24 @@ public class LibroService : ILibroService
         if(!string.IsNullOrEmpty(term))
         {
             term = term.ToLower();
-            list = list.Where(a => a.Titulo!.ToLower().Contains(term)).ToList();
+            
+            // Encontrar las categorías que coinciden con el término
+            var categoriasCoincidentes = _context.Categorias!
+                .Where(c => c.Nombre!.ToLower().Contains(term))
+                .Select(c => c.Id)
+                .ToList();
+                
+            // Encontrar los IDs de los libros que pertenecen a esas categorías
+            var librosConCategoriaCoincidente = _context.LibroCategorias!
+                .Where(lc => categoriasCoincidentes.Contains(lc.CategoriaId))
+                .Select(lc => lc.LibroId)
+                .ToList();
+
+            // Filtrar la lista de libros por título o si pertenecen a una categoría coincidente
+            list = list.Where(a => 
+                (a.Titulo != null && a.Titulo.ToLower().Contains(term)) || 
+                librosConCategoriaCoincidente.Contains(a.Id)
+            ).ToList();
         }
 
         if (paging)
