@@ -70,7 +70,7 @@ public class LoadDatabase
                     Autor = "F. Scott Fitzgerald",
                     Descripcion = "Una novela clásica sobre el sueño americano.",
                     Precio = 9.99m,
-                    CreationDate = "10/04/1925",
+                    CreationDate = new DateTime(1925, 4, 10),
                     Imagen = "https://images-na.ssl-images-amazon.com/images/I/81af+MCATTL.jpg"
                 },
                 new Libro
@@ -79,7 +79,7 @@ public class LoadDatabase
                     Autor = "Gabriel García Márquez",
                     Descripcion = "Una obra maestra del realismo mágico.",
                     Precio = 12.99m,
-                    CreationDate = "30/05/1967",
+                    CreationDate = new DateTime(1967, 5, 30),
                     Imagen = "https://images-na.ssl-images-amazon.com/images/I/81t2CVWEsUL.jpg"
                 },
                 new Libro
@@ -88,7 +88,7 @@ public class LoadDatabase
                     Autor = "Carlos Ruiz Zafón",
                     Descripcion = "Un misterio literario ambientado en Barcelona.",
                     Precio = 10.99m,
-                    CreationDate = "01/05/2001",
+                    CreationDate = new DateTime(2001, 5, 1),
                     Imagen = "https://images-na.ssl-images-amazon.com/images/I/81a4kCNuH+L.jpg"
                 }
             );

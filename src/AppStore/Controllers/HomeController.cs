@@ -22,8 +22,25 @@ public class HomeController : Controller
     public IActionResult LibroDetail(int libroId)
     {
         var libro = _libroService.GetById(libroId);
+        if (libro == null) return NotFound();
+
+        var categoriasIds = _libroService.GetCategoriaByLibroId(libroId);
+        var dbContext = HttpContext.RequestServices.GetService<AppStore.Models.Context.DatabaseContext>();
+        var categoriasNombres = dbContext?.Categorias?.Where(c => categoriasIds.Contains(c.Id)).Select(c => c.Nombre).ToList();
         
-        return View(libro);
+        var vm = new AppStore.Models.DTO.LibroVm
+        {
+            Id = libro.Id,
+            Titulo = libro.Titulo,
+            Descripcion = libro.Descripcion,
+            Autor = libro.Autor,
+            Precio = libro.Precio,
+            CreationDate = libro.CreationDate,
+            Imagen = libro.Imagen,
+            CategoriasNames = categoriasNombres != null ? string.Join(", ", categoriasNombres) : ""
+        };
+        
+        return View(vm);
     }
 
 

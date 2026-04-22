@@ -12,7 +12,7 @@ public class Libro
     public decimal? Precio { get; set; }
     public string? Titulo { get; set; }
     public string? Descripcion { get; set; }
-    public string? CreationDate { get; set; }
+    public DateTime? CreationDate { get; set; }
     public string? Imagen { get; set; }
 
     [Required]
@@ -21,20 +21,4 @@ public class Libro
     // Referencias
     public virtual ICollection<Categoria>? CategoriaRelationList { get; set; }
     public virtual ICollection<LibroCategoria>? LibroCategoriaRelationList { get; set; }
-
-    // Lista de categorías asociadas al libro (solo IDs)
-    [NotMapped]
-    public List<int>? Categorias { get; set; }
-
-    [NotMapped]
-    public string? CategoriasNames {get;set;}
-
-    [NotMapped]
-    public IFormFile? ImageFile { get; set; }
-
-    [NotMapped]
-    public IEnumerable<SelectListItem>? CategoriasList { get; set; }
-
-    [NotMapped]
-    public MultiSelectList? MultiCategoriasList { get; set; }
 }

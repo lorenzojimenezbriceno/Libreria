@@ -5,9 +5,9 @@ namespace AppStore.Repositories.Abstract;
 
 public interface ILibroService
 {
-    bool Add(Libro libro);    
+    bool Add(Libro libro, List<int> categorias);    
     bool Delete(int id);
-    bool Update(Libro libro);
+    bool Update(Libro libro, List<int> categorias);
     Libro? GetById(int id);
     LibroListVm List(string term = "", bool paging = false, int currentPage = 0);
     List<int> GetCategoriaByLibroId(int libroId);

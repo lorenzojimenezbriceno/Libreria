@@ -13,7 +13,7 @@ public class LibroService : ILibroService
         _context = context;
     }
 
-    public bool Add(Libro libro)
+    public bool Add(Libro libro, List<int> categorias)
     {
         try
         {
@@ -22,9 +22,9 @@ public class LibroService : ILibroService
             _context.SaveChanges();
 
             // Guardar las categorías asociadas al libro
-            if (libro.Categorias != null)
+            if (categorias != null)
             {
-                foreach (var categoria in libro.Categorias!)
+                foreach (var categoria in categorias)
                 {
                     var libroCategoria = new LibroCategoria
                     {
@@ -71,7 +71,7 @@ public class LibroService : ILibroService
         }
     }
 
-    public bool Update(Libro libro)
+    public bool Update(Libro libro, List<int> categorias)
     {
         try
         {
@@ -81,9 +81,9 @@ public class LibroService : ILibroService
             _context.SaveChanges();
 
             // Guardar las categorías asociadas al libro
-            if (libro.Categorias != null)
+            if (categorias != null)
             {
-                foreach (var categoria in libro.Categorias!)
+                foreach (var categoria in categorias)
                 {
                     var libroCategoria = new LibroCategoria
                     {
@@ -134,8 +134,8 @@ public class LibroService : ILibroService
             data.TotalPages = TotalPages;
         }
 
-        // Obtener los nombres de las categorías asociadas a cada libro 
-
+        // Obtener los nombres de las categorías asociadas a cada libro y mapear a LibroVm
+        var vmList = new List<LibroVm>();
         foreach(var libro in list)
         {
             var categorias = (
@@ -146,10 +146,21 @@ public class LibroService : ILibroService
                 select categoria.Nombre
             ).ToList();
             string categoriaNombres = string.Join(",", categorias); // drama, horror, accion
-            libro.CategoriasNames = categoriaNombres;
+            
+            vmList.Add(new LibroVm
+            {
+                Id = libro.Id,
+                Titulo = libro.Titulo,
+                Autor = libro.Autor,
+                Descripcion = libro.Descripcion,
+                Precio = libro.Precio,
+                CreationDate = libro.CreationDate,
+                Imagen = libro.Imagen,
+                CategoriasNames = categoriaNombres
+            });
         }
 
-        data.LibroList = list.AsQueryable();
+        data.LibroList = vmList;
         return data;
     }
 

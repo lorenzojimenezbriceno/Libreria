@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AppStore.Repositories.Abstract;
 using AppStore.Models.Domain;
+using AppStore.Models.DTO;
 
 namespace AppStore.Controllers;
 
@@ -25,7 +26,7 @@ public class LibroController : Controller
 
     public IActionResult Add()
     {
-        var libro = new Libro
+        var vm = new LibroCreateVm
         {
             CategoriasList = _categoriaService.List()
                 .Select(x => new SelectListItem
@@ -35,15 +36,13 @@ public class LibroController : Controller
                 }).ToList()
         };
 
-        TempData["msg"] = null;
-            
-        return View(libro);
+        return View(vm);
     }
 
     [HttpPost]
-    public IActionResult Add(Libro libro)
+    public IActionResult Add(LibroCreateVm vm)
     {
-        libro.CategoriasList = _categoriaService.List()
+        vm.CategoriasList = _categoriaService.List()
             .Select(x => new SelectListItem
             {
                 Value = x.Id.ToString(),
@@ -52,35 +51,46 @@ public class LibroController : Controller
 
         if (!ModelState.IsValid)
         {
-            return View(libro);
+            return View(vm);
         }
 
-        if (libro.ImageFile != null)
+        var libro = new Libro
         {
-            var resultado = _fileService.SaveImage(libro.ImageFile); 
+            Titulo = vm.Titulo,
+            Descripcion = vm.Descripcion,
+            Autor = vm.Autor,
+            Precio = vm.Precio,
+            CreationDate = vm.CreationDate
+        };
+
+        if (vm.ImageFile != null)
+        {
+            var resultado = _fileService.SaveImage(vm.ImageFile); 
             if (resultado.Item1 != 200)
             {
-                TempData["msg"] = $"{resultado.Item1}, {resultado.Item2}";
-                return View(libro);
+                ModelState.AddModelError("", $"{resultado.Item1}, {resultado.Item2}");
+                return View(vm);
             }
-            else
+            
+            libro.Imagen = resultado.Item2;
+            
+            var resultadoLibro = _libroService.Add(libro, vm.Categorias ?? new List<int>());
+            if (!resultadoLibro)
             {
-                libro.Imagen = resultado.Item2;
-                var resultadoLibro = _libroService.Add(libro);
-                if (!resultadoLibro)
-                {
-                    // Borrar la imagen guardada si el libro no se pudo guardar
-                    _fileService.DeleteFile(resultado.Item2);
-                    TempData["msg"] = $"No se pudo guardar el libro. Se borró la imagen guardada.";
-                    return RedirectToAction(nameof(Add));
-                }
-
-                TempData["msg"] = $"Se agrego el libro exitosamente.";
-                return View(libro);
+                // Borrar la imagen guardada si el libro no se pudo guardar
+                _fileService.DeleteFile(resultado.Item2);
+                ModelState.AddModelError("", "No se pudo guardar el libro. Se borró la imagen guardada.");
+                return View(vm);
             }
-        }
 
-        return View();
+            TempData["msg"] = "Se agrego el libro exitosamente.";
+            return RedirectToAction(nameof(Add));
+        }
+        else
+        {
+            ModelState.AddModelError("", "La imagen es obligatoria.");
+            return View(vm);
+        }
     }
 
     public IActionResult Edit(int id)
@@ -93,70 +103,84 @@ public class LibroController : Controller
         }
 
         var categoriasDeLibro = _libroService.GetCategoriaByLibroId(id);
-        var multiSelectListCategorias = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", categoriasDeLibro);
-        libro.MultiCategoriasList = multiSelectListCategorias;
-
-        TempData["msg"] = null;
         
-        return View(libro);
+        var vm = new LibroEditVm
+        {
+            Id = libro.Id,
+            Titulo = libro.Titulo,
+            Descripcion = libro.Descripcion,
+            Autor = libro.Autor,
+            Precio = libro.Precio,
+            CreationDate = libro.CreationDate,
+            Imagen = libro.Imagen,
+            Categorias = categoriasDeLibro,
+            MultiCategoriasList = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", categoriasDeLibro)
+        };
+
+        return View(vm);
     }
 
     [HttpPost]
-    public IActionResult Edit(Libro libro)
+    public IActionResult Edit(LibroEditVm vm)
     {
         if (!ModelState.IsValid)
         {
-            return View(libro);
+            vm.MultiCategoriasList = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", vm.Categorias);
+            return View(vm);
         }
-
-        var categoriasDeLibro = _libroService.GetCategoriaByLibroId(libro.Id);
-        var multiSelectListCategorias = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", categoriasDeLibro);
-        libro.MultiCategoriasList = multiSelectListCategorias;
 
         var nombreNuevo = "";
 
-        if (libro.ImageFile != null)
+        if (vm.ImageFile != null)
         {
             // Se salva la nueva imagen antes de actualizar el libro para asegurarse de que la imagen se guarda correctamente
-            var resultado = _fileService.SaveImage(libro.ImageFile);
+            var resultado = _fileService.SaveImage(vm.ImageFile);
             nombreNuevo = resultado.Item2;
             if (resultado.Item1 != 200)
             {
-                TempData["msg"] = $"{resultado.Item1}, {resultado.Item2}";
-                return View(libro);
+                ModelState.AddModelError("", $"{resultado.Item1}, {resultado.Item2}");
+                vm.MultiCategoriasList = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", vm.Categorias);
+                return View(vm);
             }
         }
 
         // Se borra el archivo de imagen anterior solo después de que la nueva imagen se ha guardado exitosamente
-        if (!string.IsNullOrEmpty(libro.Imagen) && !string.IsNullOrEmpty(nombreNuevo))
+        if (!string.IsNullOrEmpty(vm.Imagen) && !string.IsNullOrEmpty(nombreNuevo))
         {
-            var borro = _fileService.DeleteFile(libro.Imagen);
+            var borro = _fileService.DeleteFile(vm.Imagen);
         }
 
-        if (nombreNuevo != "")
+        var libro = new Libro
         {
-            libro.Imagen = nombreNuevo;    
-        }
+            Id = vm.Id,
+            Titulo = vm.Titulo,
+            Descripcion = vm.Descripcion,
+            Autor = vm.Autor,
+            Precio = vm.Precio,
+            CreationDate = vm.CreationDate,
+            Imagen = string.IsNullOrEmpty(nombreNuevo) ? vm.Imagen : nombreNuevo
+        };
         
-        var resultadoLibro = _libroService.Update(libro);
+        var resultadoLibro = _libroService.Update(libro, vm.Categorias ?? new List<int>());
         if (!resultadoLibro)
         {
             // Borrar la imagen guardada si el libro no se pudo guardar
-            _fileService.DeleteFile(nombreNuevo);
-            TempData["msg"] = $"No se pudo guardar el libro. Se borró la imagen guardada.";
-            return RedirectToAction(nameof(Edit));
+            if (!string.IsNullOrEmpty(nombreNuevo))
+            {
+                _fileService.DeleteFile(nombreNuevo);
+            }
+            ModelState.AddModelError("", "No se pudo guardar el libro.");
+            vm.MultiCategoriasList = new MultiSelectList(_categoriaService.List(), "Id", "Nombre", vm.Categorias);
+            return View(vm);
         }
 
-        TempData["msg"] = $"Se editó el libro exitosamente.";
-        return View(libro);
+        TempData["msg"] = "Se editó el libro exitosamente.";
+        return RedirectToAction(nameof(LibroList));
     }
 
     public IActionResult LibroList()
     {
         var libros = _libroService.List();
-
-        TempData["msg"] = null;
-        
         return View(libros);
     }
 

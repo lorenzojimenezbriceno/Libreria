@@ -1,4 +1,4 @@
-@model AppStore.Models.Domain.Libro
+@model AppStore.Models.DTO.LibroVm
 
 @{
     ViewData["Title"] = "Detalle del " + Model.Titulo + ", " + Model.Autor;
@@ -13,7 +13,7 @@
         <h3>@Model.Titulo</h3>
         <h4>@Model.Descripcion</h4>
         <h4>@Model.Precio</h4>
-        <h4>@Model.CreationDate</h4>
+        <h4>@(Model.CreationDate?.ToString("dd/MM/yyyy"))</h4>
         <h4>@Model.CategoriasNames</h4>
         <h4>Autor: @Model.Autor</h4>
     </div>

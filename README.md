@@ -2,6 +2,13 @@
 
 Ejercicio de .NET University, curso Foundational C# usando .NET y MVC
 
+# Falta / arreglar
+
+1. La paginacion de libros.
+2. Arreglar CSS el boton de volver del detalle del libro para que vuelva al listado.
+3. La busqueda de libros.
+4. Mejorar la pagina "Acerca"
+
 # Creación del proyecto
 
 mkdir Libreria
